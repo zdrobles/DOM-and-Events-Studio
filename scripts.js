@@ -11,18 +11,12 @@ function init () {
     const flightStatus = document.getElementById('flightStatus');
     const height = document.getElementById('spaceShuttleHeight');
     const shuttleBackground = document.getElementById("shuttleBackground");
-    let buttons = document.getElementsByClassName('directional');//stores all the toggleable buttons in an array
+    const buttons = document.getElementsByClassName('directional');//stores all the toggleable buttons in an array
     
     let buttonFlip = false;
-    buttonSwitch();
-
     rocket.style.position = 'absolute';
     rocket.style.left = '0px';
     rocket.style.bottom = '0px';
-    
-    let miles = Number(height.innerHTML);
-    let rocketH = parseInt(rocket.style.left);//horizontal shift tracker
-    let rocketV = parseInt(rocket.style.bottom);//vertical shift tracker
     
     //toggles the buttons
     function buttonSwitch(){
@@ -33,10 +27,10 @@ function init () {
         }
     }
 
+    buttonSwitch();
 //When the "Take off" button is clicked, the following should happen:
     takeoff.addEventListener('click', ()=>{
     // A window confirm should let the user know "Confirm that the shuttle is ready for takeoff." 
-
         let ready = window.confirm('Confirm that the shuttle is ready for takeoff.');
 
         if (ready){//If the shuttle is ready for liftoff, then add parts b-d.   
@@ -56,8 +50,8 @@ function init () {
 // When the "Land" button is clicked, the following should happen:
     land.addEventListener('click', landShuttle);
     function landShuttle(){
-    // A window alert should let the user know "The shuttle is landing. Landing gear engaged."
         buttonSwitch();
+    // A window alert should let the user know "The shuttle is landing. Landing gear engaged."
         window.alert('The shuttle is landing. Landing gear engaged.');
 
     // The flight status should change to "The shuttle has landed."
@@ -67,22 +61,15 @@ function init () {
         shuttleBackground.style.backgroundColor = 'green';
 
     // The shuttle height should go down to 0.
-        miles = 0;
-        height.innerHTML = String(miles);
+        height.innerHTML = 0;
         
-        rocketV = 0;
-        ready = false;
-
-        rocket.style.left = String(rocketH) + 'px';
-        rocket.style.bottom = String(rocketV) + 'px';
-    }
-
+        rocket.style.bottom = 0 + 'px';
+    }//end landShuttle()
     
 
 // When the "Abort Mission" button is clicked, the following should happen:
     abortMission.addEventListener('click', ()=>{
     // A window confirm should let the user know "Confirm that you want to abort the mission." 
-        buttonSwitch();
         let abort = window.confirm('Confirm that you want to abort the mission.');
 
         if (abort){//If the user wants to abort the mission, then add parts b-d.
@@ -93,14 +80,11 @@ function init () {
             shuttleBackground.style.backgroundColor = 'green';
 
         // The shuttle height should go to 0.
-            miles = 0;
-            height.innerHTML = String(miles);            
+            height.innerHTML = 0;      
+            
+            rocket.style.left = 0 + 'px';
+            rocket.style.bottom = 0 + 'px'; 
         }
-
-        rocketH = 0;
-        rocketV = 0;
-        rocket.style.left = String(rocketH) + 'px';
-        rocket.style.bottom = String(rocketV) + 'px'; 
     });
 
 
@@ -110,45 +94,33 @@ function init () {
     //added if(ready) to every direction to prevent the user from moving the rocket before taking off
 
     function goUp(){//used for 'Take Off' and 'Up' clicks
-        rocketV += 10;
-        rocket.style.bottom = String(rocketV) + 'px';
-
-        miles += 10000;
-        height.innerHTML = String(miles);
-    }
+        rocket.style.bottom = parseInt(rocket.style.bottom) + 10 + 'px';
+        height.innerHTML = Number(height.innerHTML) + 10000;
+    }//end goUp()
         
     up.addEventListener('click', goUp);
 
     down.addEventListener('click', ()=>{
-        if (miles === 10000){
+        if (height.innerHTML === '10000'){
             let landWish = window.confirm('Cannot hover any lower. Do you wish to land?');
             if (landWish){
                 landShuttle();
             }
         }
         else {
-            rocketV -= 10;
-            if (rocketV > 0){ 
-                miles -= 10000;
-                rocket.style.bottom = String(rocketV) + 'px';
-                height.innerHTML = String(miles);
-            }            
+            rocket.style.bottom = parseInt(rocket.style.bottom) - 10 + 'px';
+            height.innerHTML = Number(height.innerHTML) - 10000;         
         }
     });
 
     right.addEventListener('click', ()=>{
-        rocketH += 10;
-        rocket.style.left = String(rocketH) + 'px';
+        rocket.style.left = parseInt(rocket.style.left) + 10 + 'px';
     });
 
     left.addEventListener('click', ()=>{
-        if (rocketH > 0){  
-            rocketH -= 10;
-            rocket.style.left = String(rocketH) + 'px';
-        }
-        else {
-            window.alert('Stay on course!')
-        }
+        if (parseInt(rocket.style.left) > 0){  
+            rocket.style.left = parseInt(rocket.style.left) - 10 + 'px';
+        } else {window.alert('Stay on course!')}
     });
 }
 
