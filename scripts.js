@@ -91,8 +91,6 @@ function init () {
 // When the "Up", "Down", "Right", and "Left" buttons are clicked, the following should happen:
 // The rocket image should move 10 px in the direction of the button that was clicked.
 // If the "Up" or "Down" buttons were clicked, then the shuttle height should increase or decrease by 10,000 miles
-    //added if(ready) to every direction to prevent the user from moving the rocket before taking off
-
     function goUp(){//used for 'Take Off' and 'Up' clicks
         rocket.style.bottom = parseInt(rocket.style.bottom) + 10 + 'px';
         height.innerHTML = Number(height.innerHTML) + 10000;
